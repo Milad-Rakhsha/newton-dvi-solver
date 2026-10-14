@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Project page for GPU-Accelerated Multibody Dynamics with Frictional Contact: A Differential Variational Inequality Solver.">
+  <meta name="theme-color" content="#111713">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="GPU-Accelerated Multibody Dynamics with Frictional Contact">
+  <meta property="og:description" content="A GPU-resident differential variational inequality solver for rigid multibody systems with joints, loops, limits, and frictional contact.">
+  <meta name="twitter:card" content="summary">
+  <title>GPU-Accelerated Multibody Dynamics with Frictional Contact</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111713'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%23fff' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23c9ff36'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/style.css?v=2685755bc268">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="site-header" id="top">
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Newton DVI home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Newton <b>DVI</b></span>
+      </a>
+      <div class="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#method">Method</a>
+        <a href="#demos">Learning</a>
+        <a href="#go2-transfer">Transfer</a>
+      </div>
+      <a class="nav-paper" href="#demos">View results <span aria-hidden="true">↓</span></a>
+    </nav>
+  </header>
+
+  <main id="content">
+    <section class="hero">
+      <div class="hero-grid shell">
+        <div class="hero-copy">
+          <h1>GPU-Accelerated Multibody Dynamics with Frictional Contact</h1>
+          <p class="subtitle">A Differential Variational Inequality Solver</p>
+        </div>
+      </div>
+
+      <figure class="hero-media shell">
+        <div class="hero-videos">
+          <video autoplay controls muted loop playsinline preload="metadata" aria-label="DR Legs closed-loop robot policy rollout">
+            <source src="assets/videos/paper-2/drlegs.mp4" type="video/mp4">
+          </video>
+          <video autoplay controls muted loop playsinline preload="metadata" aria-label="Go2 rough-terrain simulation rollout">
+            <source src="assets/videos/paper-2/Go2Rough.mp4" type="video/mp4">
+          </video>
+        </div>
+        <figcaption>
+          <span class="status-dot" aria-hidden="true"></span>
+          Newton DVI natively supports robot learning for tree-structured and closed-loop mechanisms
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="section intro" id="overview">
+      <div class="shell intro-grid">
+        <div class="section-label">
+          <span>01</span>
+          <p>Overview</p>
+        </div>
+        <div class="intro-body">
+          <h2 class="overview-title">GPU dynamics without a tree-topology assumption</h2>
+          <p class="abstract">Newton DVI is a GPU implementation of a semi-implicit differential variational inequality (DVI) time-stepper for rigid multibody systems with bilateral joints, actuation, joint limits, and frictional contact. Bodies are represented in maximal coordinates, while joints and contacts enter through a common constraint-space operator. Time discretization and a convex relaxation of Coulomb friction yield a cone-constrained quadratic program at each step. A decoupled bilateral–unilateral solver combines GPU-accelerated block-sparse LDL<sup>T</sup> factorization for bilateral joints with matrix-free projected methods for unilateral limits and contacts.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section method" id="method">
+      <div class="shell">
+        <div class="section-heading light-heading">
+          <div>
+            <span class="section-index">02</span>
+            <p class="kicker">Method</p>
+          </div>
+          <div>
+            <h2>Constraint solution within a time step</h2>
+            <p>The default algorithm uses a decoupled bilateral–unilateral solve. Optional alternating block sweeps update the two constraint blocks and repeat their solves to retain more of their coupling.</p>
+          </div>
+        </div>
+
+        <figure class="solver-flow" aria-labelledby="solver-flow-caption">
+          <div class="flow-row">
+            <article class="flow-stage">
+              <span class="flow-index">1</span>
+              <p class="flow-label">Free motion</p>
+              <h3>Predicted velocity</h3>
+              <p>Apply external forces and form the constraint right-hand sides.</p>
+            </article>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <article class="flow-stage solve-stage">
+              <span class="flow-index">2</span>
+              <p class="flow-label">Bilateral constraints</p>
+              <h3>Joint and loop solve</h3>
+              <p>Fast, exact bilateral linear solves using block-sparse LDL<sup>T</sup> factorization, up to floating-point precision.</p>
+            </article>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <article class="flow-stage solve-stage">
+              <span class="flow-index">3</span>
+              <p class="flow-label">Unilateral constraints</p>
+              <h3>Limit and contact solve</h3>
+              <p>Matrix-free projected iterations for joint limits and frictional contact.</p>
+            </article>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <article class="flow-stage">
+              <span class="flow-index">4</span>
+              <p class="flow-label">Update</p>
+              <h3>Constrained velocity</h3>
+              <p>Apply the bilateral and unilateral impulses to the system state.</p>
+            </article>
+          </div>
+          <div class="coupling-return">
+            <p><strong>Optional alternating block sweep:</strong> update the bilateral and unilateral right-hand sides and repeat stages 2–3.</p>
+          </div>
+          <figcaption id="solver-flow-caption">Per-step constraint solution. The dashed return path denotes the optional coupling iteration; it is omitted in the default decoupled solve.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section demos" id="demos">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <span class="section-index">03</span>
+            <p class="kicker">Robot learning</p>
+          </div>
+          <div>
+            <h2>Robot learning: videos and results</h2>
+            <p>We evaluate DVI with three contact solvers—projected Jacobi, APGD, and P-SPG-FB—across six tree-structured robot-learning benchmarks, with MJWarp as a reference. On the closed-loop DR Legs mechanism, we compare DVI with Kamino P-ADMM. Select a task to view its policy rollout, reward curves, and throughput.</p>
+          </div>
+        </div>
+
+        <article class="feature-demo demo-showcase task-showcase" data-demo-showcase>
+          <div class="task-evidence">
+          <div class="media-frame">
+            <video autoplay controls muted loop playsinline preload="metadata" poster="assets/videos/paper-2/drlegs-poster.jpg" aria-label="Disney DR Legs policy rollout" data-demo-player>
+              <source src="assets/videos/paper-2/drlegs.mp4" type="video/mp4">
+            </video>
+            <span class="media-badge" data-demo-badge>Closed-loop mechanism</span>
+          </div>
+          <figure class="result-wide task-plot">
+            <div class="plot"><p class="plot-status" data-demo-plot-status role="status" hidden></p><a href="assets/images/drlegs-dvi-kamino-comparison.png" data-demo-plot-link><img src="assets/images/drlegs-dvi-kamino-comparison.png" alt="DR Legs training reward and simulation throughput compared with Kamino." data-demo-plot></a></div>
+            <figcaption aria-live="polite"><span>Learning results · click plot to enlarge</span><p data-demo-plot-caption>DR Legs: reward and simulation throughput for one- and two-sweep DVI and Kamino P-ADMM. Earlier closed-loop experiment.</p><a data-demo-extra hidden></a></figcaption>
+          </figure>
+          </div>
+          <div class="showcase-panel">
+            <div class="feature-copy" aria-live="polite">
+              <p class="kicker">Selected task</p>
+              <h3 data-demo-title>Disney DR Legs</h3>
+              <p data-demo-description>A 31-body serial–parallel robot with 36 revolute joints, 12 actuated coordinates, and six independent loops represented directly in the bilateral constraint graph.</p>
+              <div class="task-finding" data-demo-finding>
+                <strong data-demo-finding-title>Closed-loop learning at higher throughput</strong>
+                <p data-demo-finding-text>Comparable final reward to Kamino P-ADMM, with 57.7k simulation steps/s for one DVI sweep and 42.7k for two, versus 6.7k for P-ADMM (8.6× and 6.4× faster).</p>
+              </div>
+            </div>
+
+            <div class="demo-selector" role="group" aria-label="Choose a robot rollout">
+              <button class="demo-choice is-active" type="button" aria-pressed="true"
+                data-plot="assets/images/drlegs-dvi-kamino-comparison.png" data-plot-alt="DR Legs training reward and simulation throughput compared with Kamino."
+                data-plot-caption="DR Legs: reward and simulation throughput for one- and two-sweep DVI and Kamino P-ADMM. Earlier closed-loop experiment."
+                data-video="assets/videos/paper-2/drlegs.mp4" data-poster="assets/videos/paper-2/drlegs-poster.jpg"
+                data-title="Disney DR Legs" data-badge="Closed-loop mechanism"
+                data-finding-title="Closed-loop learning at higher throughput"
+                data-finding-text="Comparable final reward to Kamino P-ADMM, with 57.7k simulation steps/s for one DVI sweep and 42.7k for two, versus 6.7k for P-ADMM (8.6× and 6.4× faster)."
+                data-description="A 31-body serial–parallel robot with 36 revolute joints, 12 actuated coordinates, and six independent loops represented directly in the bilateral constraint graph.">
+                <img src="assets/videos/paper-2/drlegs-poster.jpg" alt="" loading="lazy"><span><strong>DR Legs</strong><small>Serial–parallel · 6 loops</small></span>
+              </button>
+              <button class="demo-choice" type="button" aria-pressed="false"
+                data-plot="assets/images/learning-updated-g1.png" data-plot-alt="Unitree G1 reward curves and training throughput for DVI solvers and MJWarp."
+                data-plot-caption="G1: updated comparison using the completed 1,500-iteration uninterrupted Jacobi rerun. APGD, P-SPG-FB, and the earlier MJWarp reference are retained."
+                data-video="assets/videos/paper-2/g1.mp4" data-poster="assets/videos/paper-2/g1-poster.jpg"
+                data-title="Unitree G1" data-badge="Tree-structured mechanism"
+                data-description="A humanoid benchmark comparing policy learning across DVI contact solvers and MJWarp.">
+                <img src="assets/videos/paper-2/g1-poster.jpg" alt="" loading="lazy"><span><strong>Unitree G1</strong><small>Humanoid · tree topology</small></span>
+              </button>
+              <button class="demo-choice" type="button" aria-pressed="false"
+                data-plot="assets/images/learning-current-h1.png" data-plot-alt="Unitree H1 reward curves and training throughput for DVI solvers and MJWarp."
+                data-plot-caption="H1: reward and training throughput for Jacobi, APGD, P-SPG-FB, and MJWarp."
+                data-video="assets/videos/paper-2/h1.mp4" data-poster="assets/videos/paper-2/h1-poster.jpg"
+                data-title="Unitree H1" data-badge="Tree-structured mechanism"
+                data-description="A full-size humanoid benchmark trained with the matrix-free unilateral solvers in the DVI pipeline.">
+                <img src="assets/videos/paper-2/h1-poster.jpg" alt="" loading="lazy"><span><strong>Unitree H1</strong><small>Humanoid · tree topology</small></span>
+              </button>
+              <button class="demo-choice" type="button" aria-pressed="false"
+                data-plot="assets/images/learning-current-go2.png" data-plot-alt="Unitree Go2 reward curves and training throughput for DVI solvers and MJWarp."
+                data-plot-caption="Go2: reward and training throughput for Jacobi, APGD, P-SPG-FB, and MJWarp." data-extra-href="#go2-transfer" data-extra-label="Watch Go2 on hardware and across simulators ↓"
+                data-video="assets/videos/paper-2/go2.mp4" data-poster="assets/videos/paper-2/go2-poster.jpg"
+                data-title="Unitree Go2" data-badge="Tree-structured mechanism"
+                data-description="A quadruped benchmark used for policy learning and matched simulation-to-simulation transfer experiments.">
+                <img src="assets/videos/paper-2/go2-poster.jpg" alt="" loading="lazy"><span><strong>Unitree Go2</strong><small>Quadruped · tree topology</small></span>
+              </button>
+              <button class="demo-choice" type="button" aria-pressed="false"
+                data-plot="assets/images/learning-current-anymal-c.png" data-plot-alt="ANYmal C reward curves and training throughput for DVI solvers and MJWarp."
+                data-plot-caption="ANYmal C: reward and training throughput for Jacobi, APGD, P-SPG-FB, and MJWarp."
+                data-video="assets/videos/paper-2/anymal_c.mp4" data-poster="assets/videos/paper-2/anymal_c-poster.jpg"
+                data-title="ANYmal C" data-badge="Tree-structured mechanism"
+                data-description="A quadruped locomotion benchmark showing policy optimization with the complete DVI simulation pipeline.">
+                <img src="assets/videos/paper-2/anymal_c-poster.jpg" alt="" loading="lazy"><span><strong>ANYmal C</strong><small>Quadruped · tree topology</small></span>
+              </button>
+              <button class="demo-choice" type="button" aria-pressed="false"
+                data-plot="assets/images/learning-humanoid.png" data-plot-alt="Humanoid reward curves and training throughput for DVI solvers and MJWarp."
+                data-plot-caption="Humanoid: reward and training throughput from the paper benchmark."
+                data-video="assets/videos/paper-2/humanoid.mp4" data-poster="assets/videos/paper-2/humanoid-poster.jpg"
+                data-title="MuJoCo Humanoid" data-badge="Tree-structured benchmark"
+                data-description="The standard MuJoCo humanoid provides a larger tree-structured benchmark for solver and training comparisons.">
+                <img src="assets/videos/paper-2/humanoid-poster.jpg" alt="" loading="lazy"><span><strong>MuJoCo Humanoid</strong><small>Benchmark · tree topology</small></span>
+              </button>
+              <button class="demo-choice" type="button" aria-pressed="false"
+                data-plot="assets/images/learning-current-ant.png" data-plot-alt="Ant reward curves and training throughput for DVI solvers and MJWarp."
+                data-plot-caption="Ant: reward and training throughput for Jacobi, APGD, P-SPG-FB, and MJWarp."
+                data-video="assets/videos/paper-2/ant.mp4" data-poster="assets/videos/paper-2/ant-poster.jpg"
+                data-title="MuJoCo Ant" data-badge="Tree-structured benchmark"
+                data-description="A compact locomotion benchmark used to compare contact solvers and training throughput.">
+                <img src="assets/videos/paper-2/ant-poster.jpg" alt="" loading="lazy"><span><strong>MuJoCo Ant</strong><small>Benchmark · tree topology</small></span>
+              </button>
+            </div>
+          </div>
+        </article>
+        <p class="learning-note">Tree-structured reward curves use EMA smoothing and within-run variability bands; legends report median training throughput.</p>
+      </div>
+    </section>
+
+    <section class="section transfer" id="go2-transfer" aria-labelledby="transfer-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <span class="section-index">04</span>
+            <p class="kicker">Policy transfer</p>
+          </div>
+          <div>
+            <h2 id="transfer-title">Go2: from simulation to the real world</h2>
+            <p>Quadruped locomotion policies trained with Newton DVI, deployed in MuJoCo-C and on a physical Unitree Go2.</p>
+          </div>
+        </div>
+          <article class="transfer-example">
+            <h4>Sim-to-sim · quadruped walking in MuJoCo</h4>
+            <p>Policies trained with MJWarp (left) and Newton DVI (right), both deployed in MuJoCo-C under the same commanded motions.</p>
+            <div class="media-frame transfer-comparison">
+              <video autoplay controls muted loop playsinline preload="metadata" poster="assets/videos/go2-velocity-transfer-poster.jpg" aria-label="Go2 quadruped walking in MuJoCo-C: MJWarp-trained policy left, DVI-trained policy right">
+                <source src="assets/videos/go2-velocity-mjwarp-vs-dvi.mp4" type="video/mp4">
+              </video>
+            </div>
+          </article>
+          <article class="transfer-example">
+            <h4>Sim-to-real · from rough-terrain simulation to Go2</h4>
+            <p>DVI-trained quadruped locomotion shown in simulation and on the physical robot.</p>
+            <div class="transfer-pair">
+              <figure class="result-wide">
+                <div class="transfer-pair-media">
+                  <video autoplay controls muted loop playsinline preload="metadata" poster="assets/videos/paper-2/go2_final25_gray060_resume_small-poster.jpg" aria-label="Go2 quadruped locomotion in Newton DVI rough-terrain simulation">
+                    <source src="assets/videos/paper-2/go2_final25_gray060_resume_small.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <figcaption><span>Simulation</span><strong>Newton DVI · rough terrain</strong></figcaption>
+              </figure>
+              <figure class="result-wide">
+                <div class="transfer-pair-media">
+                  <video autoplay controls muted loop playsinline preload="metadata" poster="assets/videos/go2-sim2real-poster.jpg" aria-label="DVI-trained Go2 quadruped locomotion on physical hardware">
+                    <source src="assets/videos/go2-sim2real.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <figcaption><span>Real world</span><strong>Physical Unitree Go2 · outdoors</strong></figcaption>
+              </figure>
+            </div>
+          </article>
+        <p class="integration-note">The DVI solver is being integrated into Newton’s Kamino solver. <a href="https://github.com/newton-physics/newton/blob/main/newton/_src/solvers/kamino/_src/solvers/dvi/solver.py">View the DVI implementation in Newton/Kamino <span aria-hidden="true">↗</span></a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="shell footer-grid">
+      <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"></span><span>Newton <b>DVI</b></span></a>
+      <p>GPU-Accelerated Multibody Dynamics with Frictional Contact</p>
+      <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+  <script src="assets/showcase.js?v=e7962db69c28" defer></script>
+</body>
+</html>
