@@ -143,8 +143,8 @@
             <span class="media-badge" data-demo-badge>Closed-loop mechanism</span>
           </div>
           <figure class="result-wide task-plot">
-            <div class="plot"><p class="plot-status" data-demo-plot-status role="status" hidden></p><a href="assets/images/drlegs-dvi-kamino-comparison.png" data-demo-plot-link><img src="assets/images/drlegs-dvi-kamino-comparison.png" alt="DR Legs training reward and simulation throughput compared with Kamino." data-demo-plot></a></div>
-            <figcaption aria-live="polite"><span>Learning results · click plot to enlarge</span><p data-demo-plot-caption>DR Legs: reward and simulation throughput for one- and two-sweep DVI and Kamino P-ADMM. Earlier closed-loop experiment.</p><a data-demo-extra hidden></a></figcaption>
+            <div class="plot"><p class="plot-status" data-demo-plot-status role="status" hidden></p><a href="assets/images/drlegs-dvi-kamino-comparison.png?v=776ba93c418e" data-demo-plot-link><img src="assets/images/drlegs-dvi-kamino-comparison.png?v=776ba93c418e" alt="DR Legs reward curves and training throughput for Jacobi, APGD, P-SPG-FB, and Kamino P-ADMM." data-demo-plot></a></div>
+            <figcaption aria-live="polite"><span>Learning results · click plot to enlarge</span><p data-demo-plot-caption>DR Legs: reward and median training throughput for Jacobi, APGD, P-SPG-FB, and Kamino P-ADMM.</p><a data-demo-extra hidden></a></figcaption>
           </figure>
           </div>
           <div class="showcase-panel">
@@ -153,32 +153,32 @@
               <h3 data-demo-title>Disney DR Legs</h3>
               <p data-demo-description>A 31-body serial–parallel robot with 36 revolute joints, 12 actuated coordinates, and six independent loops represented directly in the bilateral constraint graph.</p>
               <div class="task-finding" data-demo-finding>
-                <strong data-demo-finding-title>Closed-loop learning at higher throughput</strong>
-                <p data-demo-finding-text>Comparable final reward to Kamino P-ADMM, with 57.7k simulation steps/s for one DVI sweep and 42.7k for two, versus 6.7k for P-ADMM (8.6× and 6.4× faster).</p>
+                <strong data-demo-finding-title>Closed-loop learning with three contact solvers</strong>
+                <p data-demo-finding-text>Jacobi, APGD, and P-SPG-FB reach final rewards of 378.2, 371.7, and 380.3, respectively, compared with 372.7 for the Kamino P-ADMM reference (means over the final 50 updates).</p>
               </div>
             </div>
 
             <div class="demo-selector" role="group" aria-label="Choose a robot rollout">
               <button class="demo-choice is-active" type="button" aria-pressed="true"
-                data-plot="assets/images/drlegs-dvi-kamino-comparison.png" data-plot-alt="DR Legs training reward and simulation throughput compared with Kamino."
-                data-plot-caption="DR Legs: reward and simulation throughput for one- and two-sweep DVI and Kamino P-ADMM. Earlier closed-loop experiment."
+                data-plot="assets/images/drlegs-dvi-kamino-comparison.png?v=776ba93c418e" data-plot-alt="DR Legs reward curves and training throughput for Jacobi, APGD, P-SPG-FB, and Kamino P-ADMM."
+                data-plot-caption="DR Legs: reward and median training throughput for Jacobi, APGD, P-SPG-FB, and Kamino P-ADMM."
                 data-video="assets/videos/paper-2/drlegs.mp4" data-poster="assets/videos/paper-2/drlegs-poster.jpg"
                 data-title="Disney DR Legs" data-badge="Closed-loop mechanism"
-                data-finding-title="Closed-loop learning at higher throughput"
-                data-finding-text="Comparable final reward to Kamino P-ADMM, with 57.7k simulation steps/s for one DVI sweep and 42.7k for two, versus 6.7k for P-ADMM (8.6× and 6.4× faster)."
+                data-finding-title="Closed-loop learning with three contact solvers"
+                data-finding-text="Jacobi, APGD, and P-SPG-FB reach final rewards of 378.2, 371.7, and 380.3, respectively, compared with 372.7 for the Kamino P-ADMM reference (means over the final 50 updates)."
                 data-description="A 31-body serial–parallel robot with 36 revolute joints, 12 actuated coordinates, and six independent loops represented directly in the bilateral constraint graph.">
                 <img src="assets/videos/paper-2/drlegs-poster.jpg" alt="" loading="lazy"><span><strong>DR Legs</strong><small>Serial–parallel · 6 loops</small></span>
               </button>
               <button class="demo-choice" type="button" aria-pressed="false"
-                data-plot="assets/images/learning-updated-g1.png" data-plot-alt="Unitree G1 reward curves and training throughput for DVI solvers and MJWarp."
-                data-plot-caption="G1: updated comparison using the completed 1,500-iteration uninterrupted Jacobi rerun. APGD, P-SPG-FB, and the earlier MJWarp reference are retained."
+                data-plot="assets/images/learning-updated-g1.png?v=92b17b39025d" data-plot-alt="Unitree G1 reward curves and training throughput for DVI solvers and MJWarp."
+                data-plot-caption="G1: reward and training throughput for Jacobi, APGD, P-SPG-FB, and MJWarp."
                 data-video="assets/videos/paper-2/g1.mp4" data-poster="assets/videos/paper-2/g1-poster.jpg"
                 data-title="Unitree G1" data-badge="Tree-structured mechanism"
                 data-description="A humanoid benchmark comparing policy learning across DVI contact solvers and MJWarp.">
                 <img src="assets/videos/paper-2/g1-poster.jpg" alt="" loading="lazy"><span><strong>Unitree G1</strong><small>Humanoid · tree topology</small></span>
               </button>
               <button class="demo-choice" type="button" aria-pressed="false"
-                data-plot="assets/images/learning-current-h1.png" data-plot-alt="Unitree H1 reward curves and training throughput for DVI solvers and MJWarp."
+                data-plot="assets/images/learning-current-h1.png?v=1467faa15053" data-plot-alt="Unitree H1 reward curves and training throughput for DVI solvers and MJWarp."
                 data-plot-caption="H1: reward and training throughput for Jacobi, APGD, P-SPG-FB, and MJWarp."
                 data-video="assets/videos/paper-2/h1.mp4" data-poster="assets/videos/paper-2/h1-poster.jpg"
                 data-title="Unitree H1" data-badge="Tree-structured mechanism"
@@ -186,7 +186,7 @@
                 <img src="assets/videos/paper-2/h1-poster.jpg" alt="" loading="lazy"><span><strong>Unitree H1</strong><small>Humanoid · tree topology</small></span>
               </button>
               <button class="demo-choice" type="button" aria-pressed="false"
-                data-plot="assets/images/learning-current-go2.png" data-plot-alt="Unitree Go2 reward curves and training throughput for DVI solvers and MJWarp."
+                data-plot="assets/images/learning-current-go2.png?v=98d92f86bbee" data-plot-alt="Unitree Go2 reward curves and training throughput for DVI solvers and MJWarp."
                 data-plot-caption="Go2: reward and training throughput for Jacobi, APGD, P-SPG-FB, and MJWarp." data-extra-href="#go2-transfer" data-extra-label="Watch Go2 on hardware and across simulators ↓"
                 data-video="assets/videos/paper-2/go2.mp4" data-poster="assets/videos/paper-2/go2-poster.jpg"
                 data-title="Unitree Go2" data-badge="Tree-structured mechanism"
@@ -194,7 +194,7 @@
                 <img src="assets/videos/paper-2/go2-poster.jpg" alt="" loading="lazy"><span><strong>Unitree Go2</strong><small>Quadruped · tree topology</small></span>
               </button>
               <button class="demo-choice" type="button" aria-pressed="false"
-                data-plot="assets/images/learning-current-anymal-c.png" data-plot-alt="ANYmal C reward curves and training throughput for DVI solvers and MJWarp."
+                data-plot="assets/images/learning-current-anymal-c.png?v=872a3c13d371" data-plot-alt="ANYmal C reward curves and training throughput for DVI solvers and MJWarp."
                 data-plot-caption="ANYmal C: reward and training throughput for Jacobi, APGD, P-SPG-FB, and MJWarp."
                 data-video="assets/videos/paper-2/anymal_c.mp4" data-poster="assets/videos/paper-2/anymal_c-poster.jpg"
                 data-title="ANYmal C" data-badge="Tree-structured mechanism"
@@ -202,15 +202,15 @@
                 <img src="assets/videos/paper-2/anymal_c-poster.jpg" alt="" loading="lazy"><span><strong>ANYmal C</strong><small>Quadruped · tree topology</small></span>
               </button>
               <button class="demo-choice" type="button" aria-pressed="false"
-                data-plot="assets/images/learning-humanoid.png" data-plot-alt="Humanoid reward curves and training throughput for DVI solvers and MJWarp."
-                data-plot-caption="Humanoid: reward and training throughput from the paper benchmark."
+                data-plot="assets/images/learning-humanoid.png?v=b598176ee16b" data-plot-alt="Humanoid reward curves and training throughput for DVI solvers and MJWarp."
+                data-plot-caption="Humanoid: reward and training throughput for Jacobi, APGD, P-SPG-FB, and MJWarp."
                 data-video="assets/videos/paper-2/humanoid.mp4" data-poster="assets/videos/paper-2/humanoid-poster.jpg"
                 data-title="MuJoCo Humanoid" data-badge="Tree-structured benchmark"
                 data-description="The standard MuJoCo humanoid provides a larger tree-structured benchmark for solver and training comparisons.">
                 <img src="assets/videos/paper-2/humanoid-poster.jpg" alt="" loading="lazy"><span><strong>MuJoCo Humanoid</strong><small>Benchmark · tree topology</small></span>
               </button>
               <button class="demo-choice" type="button" aria-pressed="false"
-                data-plot="assets/images/learning-current-ant.png" data-plot-alt="Ant reward curves and training throughput for DVI solvers and MJWarp."
+                data-plot="assets/images/learning-current-ant.png?v=11cd1803994e" data-plot-alt="Ant reward curves and training throughput for DVI solvers and MJWarp."
                 data-plot-caption="Ant: reward and training throughput for Jacobi, APGD, P-SPG-FB, and MJWarp."
                 data-video="assets/videos/paper-2/ant.mp4" data-poster="assets/videos/paper-2/ant-poster.jpg"
                 data-title="MuJoCo Ant" data-badge="Tree-structured benchmark"
@@ -220,7 +220,7 @@
             </div>
           </div>
         </article>
-        <p class="learning-note">Tree-structured reward curves use EMA smoothing and within-run variability bands; legends report median training throughput.</p>
+        <p class="learning-note">Reward curves use EMA smoothing and within-run variability bands; legends report median training throughput. Throughput reflects each run’s full configuration; the MJWarp and Kamino references include historical measurements.</p>
       </div>
     </section>
 
