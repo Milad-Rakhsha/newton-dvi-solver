@@ -6,10 +6,10 @@
   <meta name="description" content="Project page for GPU-Accelerated Multibody Dynamics with Frictional Contact: A Differential Variational Inequality Solver.">
   <meta name="theme-color" content="#111713">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="GPU-Accelerated Multibody Dynamics with Frictional Contact">
+  <meta property="og:title" content="GPU-Accelerated Multibody Dynamics with Frictional Contac Solver">
   <meta property="og:description" content="A GPU-resident differential variational inequality solver for rigid multibody systems with joints, loops, limits, and frictional contact.">
   <meta name="twitter:card" content="summary">
-  <title>GPU-Accelerated Multibody Dynamics with Frictional Contact</title>
+  <title>GPU-Accelerated Multibody Dynamics with Frictional Contact Solver</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111713'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%23fff' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23c9ff36'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="assets/style.css?v=2685755bc268">
 </head>
@@ -36,7 +36,7 @@
     <section class="hero">
       <div class="hero-grid shell">
         <div class="hero-copy">
-          <h1>GPU-Accelerated Multibody Dynamics with Frictional Contact</h1>
+          <h1>GPU-Accelerated Multibody Dynamics with Frictional Contact Solver</h1>
           <p class="subtitle">A Differential Variational Inequality Solver</p>
         </div>
       </div>
@@ -79,7 +79,7 @@
           </div>
           <div>
             <h2>Constraint solution within a time step</h2>
-            <p>The default algorithm uses a decoupled bilateral–unilateral solve. Optional alternating block sweeps update the two constraint blocks and repeat their solves to retain more of their coupling.</p>
+            <p>The time-stepping scheme uses a decoupled bilateral–unilateral solve. Optional alternating block sweeps update the two constraint blocks and repeat their solves to retain more of their coupling.</p>
           </div>
         </div>
 
@@ -116,7 +116,7 @@
           <div class="coupling-return">
             <p><strong>Optional alternating block sweep:</strong> update the bilateral and unilateral right-hand sides and repeat stages 2–3.</p>
           </div>
-          <figcaption id="solver-flow-caption">Per-step constraint solution. The dashed return path denotes the optional coupling iteration; it is omitted in the default decoupled solve.</figcaption>
+          <figcaption id="solver-flow-caption">The dashed path shows optional iterations to improve joint–contact coupling.</figcaption>
         </figure>
       </div>
     </section>
@@ -129,7 +129,7 @@
             <p class="kicker">Robot learning</p>
           </div>
           <div>
-            <h2>Robot learning: videos and results</h2>
+            <h2>Robot learning</h2>
             <p>We evaluate DVI with three contact solvers—projected Jacobi, APGD, and P-SPG-FB—across six tree-structured robot-learning benchmarks, with MJWarp as a reference. On the closed-loop DR Legs mechanism, we compare DVI with Kamino P-ADMM. Select a task to view its policy rollout, reward curves, and throughput.</p>
           </div>
         </div>
@@ -246,7 +246,7 @@
             </div>
           </article>
           <article class="transfer-example">
-            <h4>Sim-to-real · from rough-terrain simulation to Go2</h4>
+            <h4>Sim-to-real · Go2 locomotion</h4>
             <p>DVI-trained quadruped locomotion shown in simulation and on the physical robot.</p>
             <div class="transfer-pair">
               <figure class="result-wide">
@@ -263,7 +263,7 @@
                     <source src="assets/videos/go2-sim2real.mp4" type="video/mp4">
                   </video>
                 </div>
-                <figcaption><span>Real world</span><strong>Physical Unitree Go2 · outdoors</strong></figcaption>
+                <figcaption><span>Real world</span><strong>Unitree Go2</strong></figcaption>
               </figure>
             </div>
           </article>
@@ -276,7 +276,7 @@
   <footer>
     <div class="shell footer-grid">
       <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"></span><span>Newton <b>DVI</b></span></a>
-      <p>GPU-Accelerated Multibody Dynamics with Frictional Contact</p>
+      <p>GPU-Accelerated Multibody Dynamics with Frictional Contact Solver</p>
       <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
     </div>
   </footer>
